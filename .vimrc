@@ -18,6 +18,7 @@ set nobackup
 set undodir=~/.vim/undodir
 set undofile
 set incsearch
+set termwinsize=10x0
 
 set colorcolumn=80
 highlight ColorColumn ctermbg=0 guibg=lightgrey
@@ -67,12 +68,13 @@ nnoremap <leader>t :NERDTreeToggle<CR>
 nnoremap <leader>u :UndoTreeShow<CR>
 nnoremap <leader>v :wincmd v<CR>
 nnoremap <leader>q :wincmd q<CR>
+nnoremap <leader>z :bel term<CR>
 
-nnoremap <silent><leader>+ :vertical resize +5<CR>
-nnoremap <silent><leader>- :vertical resize -5<CR>
+nnoremap <silent><leader>1 :vertical resize +5<CR>
+nnoremap <silent><leader>2 :vertical resize -5<CR>
 
 nnoremap <leader>f :FZF~ <cr>
 nnoremap <leader>gd :ycmcompleter goto<cr>
 nnoremap <leader>gd :ycmcompleter goto<cr>
 nnoremap <leader>gf :YcmCompleter FixIt<CR>
-oremap <leader>gf :YcmCompleter FixIt<CR>
+remap <leader>gf :YcmCompleter FixIt<CR>
