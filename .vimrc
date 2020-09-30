@@ -33,6 +33,8 @@ Plug 'jremmen/vim-ripgrep'
 Plug 'preservim/nerdtree'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'jiangmiao/auto-pairs'
+Plug 'prettier/vim-prettier', { 'do': 'yarn install','for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] } 
 
 call plug#end()
 
@@ -54,7 +56,7 @@ let g:ctrlp_use_caching = 0
 let g:fxf_layout = { 'window': { 'width': 0.8, 'height':0.8 } }
 let $FZF_DEFAULT_OPTS='--reverse'
 
-
+autocmd FileType javascript set formatprg=prettier\ --stdin
 nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
 nnoremap <leader>h :wincmd h<CR>
 nnoremap <leader>j :wincmd j<CR>
@@ -73,4 +75,4 @@ nnoremap <leader>f :FZF~ <cr>
 nnoremap <leader>gd :ycmcompleter goto<cr>
 nnoremap <leader>gd :ycmcompleter goto<cr>
 nnoremap <leader>gf :YcmCompleter FixIt<CR>
-noremap <leader>gf :YcmCompleter FixIt<CR>
+oremap <leader>gf :YcmCompleter FixIt<CR>
