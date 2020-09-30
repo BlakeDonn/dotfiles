@@ -18,7 +18,7 @@ set nobackup
 set undodir=~/.vim/undodir
 set undofile
 set incsearch
-set termwinsize=0x20
+set termwinsize=0x30
 
 set colorcolumn=80
 highlight ColorColumn ctermbg=0 guibg=lightgrey
@@ -77,4 +77,4 @@ nnoremap <leader>f :FZF~ <cr>
 nnoremap <leader>gd :ycmcompleter goto<cr>
 nnoremap <leader>gd :ycmcompleter goto<cr>
 nnoremap <leader>gf :YcmCompleter FixIt<CR>
-emap <leader>gf :YcmCompleter FixIt<CR>
+map <leader>gf :YcmCompleter FixIt<CR>
