@@ -18,13 +18,13 @@ set nobackup
 set undodir=~/.vim/undodir
 set undofile
 set incsearch
-set termwinsize=0x30
 
 set colorcolumn=80
 highlight ColorColumn ctermbg=0 guibg=lightgrey
 
 call plug#begin('~/.vim/plugged')
 
+Plug 'pangloss/vim-javascript'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'morhetz/gruvbox'
 Plug 'vim-utils/vim-man'
@@ -56,6 +56,29 @@ let g:ctrlp_use_caching = 0
 
 let g:fxf_layout = { 'window': { 'width': 0.8, 'height':0.8 } }
 let $FZF_DEFAULT_OPTS='--reverse'
+let g:term_buf = 0
+let g:term_win = 0
+
+function! Term_toggle(height)
+    if win_gotoid(g:term_win)
+        hide
+    else
+        botright new
+        exec "resize " . a:height
+        try
+            exec "buffer " . g:term_buf
+        catch
+            call termopen($SHELL, {"detach": 0})
+            let g:term_buf = bufnr("")
+        endtry
+        startinsert!
+        let g:term_win = win_getid()
+    endif
+endfunction
+
+
+nnoremap <leader>z :call Term_toggle(10)<cr>
+tnoremap <leader>zt <C-\><C-n>:call Term_toggle(10)<cr>
 
 autocmd FileType javascript set formatprg=prettier\ --stdin
 nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
@@ -68,13 +91,8 @@ nnoremap <leader>t :NERDTreeToggle<CR>
 nnoremap <leader>u :UndoTreeShow<CR>
 nnoremap <leader>v :wincmd v<CR>
 nnoremap <leader>q :wincmd q<CR>
-nnoremap <leader>z :vert term<CR>
 
 nnoremap <silent><leader>1 :vertical resize +5<CR>
 nnoremap <silent><leader>2 :vertical resize -5<CR>
 
 nnoremap <leader>f :FZF~ <cr>
-nnoremap <leader>gd :ycmcompleter goto<cr>
-nnoremap <leader>gd :ycmcompleter goto<cr>
-nnoremap <leader>gf :YcmCompleter FixIt<CR>
-map <leader>gf :YcmCompleter FixIt<CR>
