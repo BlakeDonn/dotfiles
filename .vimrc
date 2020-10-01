@@ -1,9 +1,16 @@
+
 syntax on
 
 set splitright
+set nowrap
+
+"neoclide (autocomplete) settings
 set updatetime=50
 set hidden
+set nobackup
+set nowritebackup
 set cmdheight=2
+
 set wildmenu
 set laststatus=2
 set noerrorbells
@@ -14,7 +21,6 @@ set smartindent
 set nu
 set smartcase
 set noswapfile
-set nobackup
 set undodir=~/.vim/undodir
 set undofile
 set incsearch
@@ -24,18 +30,18 @@ highlight ColorColumn ctermbg=0 guibg=lightgrey
 
 call plug#begin('~/.vim/plugged')
 
+Plug 'mattn/emmet-vim'
 Plug 'pangloss/vim-javascript'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'morhetz/gruvbox'
 Plug 'vim-utils/vim-man'
-Plug 'git@github.com:kien/ctrlp.vim.git'
 Plug 'mbbill/undotree'
 Plug 'jremmen/vim-ripgrep'
 Plug 'preservim/nerdtree'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'jiangmiao/auto-pairs'
-Plug 'prettier/vim-prettier', { 'do': 'yarn install','for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] } 
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
 call plug#end()
 
@@ -46,8 +52,8 @@ if executable('rg')
     let g:rg_derivce_root='true'
 endif
 
+let g:prettier#autoformat_require_pragma = 0
 let loaded_matchparen = 1
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc -exclude-standard']
 let mapleader = " "
 let g:netrw_browse_split = 2
 let g:netrw_banner = 0
@@ -59,6 +65,7 @@ let $FZF_DEFAULT_OPTS='--reverse'
 let g:term_buf = 0
 let g:term_win = 0
 
+"toggle terminal function
 function! Term_toggle(height)
     if win_gotoid(g:term_win)
         hide
@@ -76,11 +83,16 @@ function! Term_toggle(height)
     endif
 endfunction
 
+"autocomplete function for neoclide
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
 
 nnoremap <leader>z :call Term_toggle(10)<cr>
 tnoremap <leader>zt <C-\><C-n>:call Term_toggle(10)<cr>
 
-autocmd FileType javascript set formatprg=prettier\ --stdin
 nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
 nnoremap <leader>h :wincmd h<CR>
 nnoremap <leader>j :wincmd j<CR>
@@ -92,7 +104,17 @@ nnoremap <leader>u :UndoTreeShow<CR>
 nnoremap <leader>v :wincmd v<CR>
 nnoremap <leader>q :wincmd q<CR>
 
+"autocomplete for neoclide
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+nnoremap <silent><leader>3 :res +5<CR>
+nnoremap <silent><leader>4 :res -5<CR>
 nnoremap <silent><leader>1 :vertical resize +5<CR>
 nnoremap <silent><leader>2 :vertical resize -5<CR>
 
 nnoremap <leader>f :FZF~ <cr>
+
