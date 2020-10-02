@@ -11,6 +11,7 @@ set nobackup
 set nowritebackup
 set cmdheight=2
 
+set relativenumber
 set wildmenu
 set laststatus=2
 set noerrorbells
@@ -18,7 +19,7 @@ set tabstop=4 softtabstop=4
 set shiftwidth=4
 set expandtab
 set smartindent
-set nu
+set rnu
 set smartcase
 set noswapfile
 set undodir=~/.vim/undodir
@@ -30,6 +31,7 @@ highlight ColorColumn ctermbg=0 guibg=lightgrey
 
 call plug#begin('~/.vim/plugged')
 
+Plug 'theprimeagen/vim-be-good'
 Plug 'mattn/emmet-vim'
 Plug 'pangloss/vim-javascript'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -98,7 +100,6 @@ nnoremap <leader>h :wincmd h<CR>
 nnoremap <leader>j :wincmd j<CR>
 nnoremap <leader>k :wincmd k<CR>
 nnoremap <leader>l :wincmd l<CR>
-nnoremap <leader>f :CtrlP /Users/bdizzle/Desktop/codebases<CR>
 nnoremap <leader>t :NERDTreeToggle<CR>
 nnoremap <leader>u :UndoTreeShow<CR>
 nnoremap <leader>v :wincmd v<CR>
@@ -116,5 +117,5 @@ nnoremap <silent><leader>4 :res -5<CR>
 nnoremap <silent><leader>1 :vertical resize +5<CR>
 nnoremap <silent><leader>2 :vertical resize -5<CR>
 
-nnoremap <leader>f :FZF~ <cr>
+nnoremap <leader>f :FZF~/Desktop/codebases<cr>
 
