@@ -1,49 +1,48 @@
-
 syntax on
 
-set splitright
+set expandtab
+set incsearch
+set laststatus=2
+set noerrorbells
+set noswapfile
 set nowrap
+set relativenumber
+set rnu
+set shiftwidth=4
+set smartcase
+set smartindent
+set splitright
+set tabstop=4 softtabstop=4
+set undodir=~/.vim/undodir
+set undofile
+set wildmenu
 
-"neoclide (autocomplete) settings
-set updatetime=50
+"CoC settings
+set cmdheight=2
+set colorcolumn=80
 set hidden
 set nobackup
 set nowritebackup
-set cmdheight=2
-
-set relativenumber
-set wildmenu
-set laststatus=2
-set noerrorbells
-set tabstop=4 softtabstop=4
-set shiftwidth=4
-set expandtab
-set smartindent
-set rnu
-set smartcase
-set noswapfile
-set undodir=~/.vim/undodir
-set undofile
-set incsearch
-
-set colorcolumn=80
+set shortmess+=c
+set updatetime=50
 highlight ColorColumn ctermbg=0 guibg=lightgrey
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'theprimeagen/vim-be-good'
 Plug 'mattn/emmet-vim'
-Plug 'pangloss/vim-javascript'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'morhetz/gruvbox'
-Plug 'vim-utils/vim-man'
 Plug 'mbbill/undotree'
+Plug 'morhetz/gruvbox'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'pangloss/vim-javascript'
 Plug 'jremmen/vim-ripgrep'
-Plug 'preservim/nerdtree'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'jiangmiao/auto-pairs'
+Plug 'preservim/nerdtree'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+Plug 'theprimeagen/vim-be-good'
+Plug 'vim-utils/vim-man'
+Plug 'wakatime/vim-wakatime'
 
 call plug#end()
 
@@ -54,6 +53,7 @@ if executable('rg')
     let g:rg_derivce_root='true'
 endif
 
+"general styling
 let g:prettier#autoformat_require_pragma = 0
 let loaded_matchparen = 1
 let mapleader = " "
@@ -62,10 +62,12 @@ let g:netrw_banner = 0
 let g:netrw_winsize = 25
 let g:ctrlp_use_caching = 0
 
+"fzf search features
 let g:fxf_layout = { 'window': { 'width': 0.8, 'height':0.8 } }
 let $FZF_DEFAULT_OPTS='--reverse'
 let g:term_buf = 0
 let g:term_win = 0
+
 
 "toggle terminal function
 function! Term_toggle(height)
@@ -85,37 +87,49 @@ function! Term_toggle(height)
     endif
 endfunction
 
-"autocomplete function for neoclide
+"terminal toggle keys
+nnoremap <leader>z :call Term_toggle(10)<cr>
+tnoremap <leader>zt <C-\><C-n>:call Term_toggle(10)<cr>
+
+"general window movement/navigation
+nnoremap <leader>h :wincmd h<CR>
+nnoremap <leader>j :wincmd j<CR>
+nnoremap <leader>k :wincmd k<CR>
+nnoremap <leader>l :wincmd l<CR>
+nnoremap <leader>v :wincmd v<CR>
+nnoremap <leader>q :wincmd q<CR>
+nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
+nnoremap <leader>t :NERDTreeToggle<CR>
+nnoremap <leader>u :UndoTreeShow<CR>
+nnoremap <silent><leader>3 :res +5<CR>
+nnoremap <silent><leader>4 :res -5<CR>
+nnoremap <silent><leader>1 :vertical resize +5<CR>
+nnoremap <silent><leader>2 :vertical resize -5<CR>
+
+"CoC
+"autocomplete
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-
-nnoremap <leader>z :call Term_toggle(10)<cr>
-tnoremap <leader>zt <C-\><C-n>:call Term_toggle(10)<cr>
-
-nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
-nnoremap <leader>h :wincmd h<CR>
-nnoremap <leader>j :wincmd j<CR>
-nnoremap <leader>k :wincmd k<CR>
-nnoremap <leader>l :wincmd l<CR>
-nnoremap <leader>t :NERDTreeToggle<CR>
-nnoremap <leader>u :UndoTreeShow<CR>
-nnoremap <leader>v :wincmd v<CR>
-nnoremap <leader>q :wincmd q<CR>
-
-"autocomplete for neoclide
+"tab remap
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-nnoremap <silent><leader>3 :res +5<CR>
-nnoremap <silent><leader>4 :res -5<CR>
-nnoremap <silent><leader>1 :vertical resize +5<CR>
-nnoremap <silent><leader>2 :vertical resize -5<CR>
+"definition navigation
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
+"react refactor
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+"default fzf start location
 nnoremap <leader>f :FZF~/Desktop/codebases<cr>
 
