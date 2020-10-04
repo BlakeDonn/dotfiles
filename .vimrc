@@ -29,6 +29,7 @@ highlight ColorColumn ctermbg=0 guibg=lightgrey
 
 call plug#begin('~/.vim/plugged')
 
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'mattn/emmet-vim'
 Plug 'mbbill/undotree'
 Plug 'morhetz/gruvbox'
@@ -54,6 +55,7 @@ if executable('rg')
 endif
 
 "general styling
+let g:mkdp_browser = 'Google Chrome'
 let g:prettier#autoformat_require_pragma = 0
 let loaded_matchparen = 1
 let mapleader = " "
@@ -85,6 +87,16 @@ function! Term_toggle(height)
         startinsert!
         let g:term_win = win_getid()
     endif
+endfunction
+
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocActionAsync('doHover')
+  endif
 endfunction
 
 "terminal toggle keys
@@ -121,10 +133,10 @@ inoremap <silent><expr> <TAB>
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 "definition navigation
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+nmap <silent>gd <Plug>(coc-definition)
+nmap <silent>gy <Plug>(coc-type-definition)
+nmap <silent>gi <Plug>(coc-implementation)
+nmap <silent>gr <Plug>(coc-references)
 
 "react refactor
 xmap <leader>a  <Plug>(coc-codeaction-selected)
@@ -133,3 +145,7 @@ nmap <leader>a  <Plug>(coc-codeaction-selected)
 "default fzf start location
 nnoremap <leader>f :FZF~/Desktop/codebases<cr>
 
+"markdownremaps
+nmap <C-s> <Plug>MarkdownPreview
+nmap <M-s> <Plug>MarkdownPreviewStop
+nmap <C-p> <Plug>MarkdownPreviewToggle
