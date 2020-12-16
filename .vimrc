@@ -89,8 +89,7 @@ function! Term_toggle(height)
     endif
 endfunction
 
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
+"CoC documentation show
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
@@ -98,6 +97,7 @@ function! s:show_documentation()
     call CocActionAsync('doHover')
   endif
 endfunction
+nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 "terminal toggle keys
 nnoremap <leader>z :call Term_toggle(10)<cr>
