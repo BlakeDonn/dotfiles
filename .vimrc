@@ -104,6 +104,7 @@ nnoremap <leader>z :call Term_toggle(10)<cr>
 tnoremap <leader>zt <C-\><C-n>:call Term_toggle(10)<cr>
 
 "general window movement/navigation
+"set macro for *cgn"changewords"<esc>. x amount of times to change
 nnoremap <leader>h :wincmd h<CR>
 nnoremap <leader>j :wincmd j<CR>
 nnoremap <leader>k :wincmd k<CR>
