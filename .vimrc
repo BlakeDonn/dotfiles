@@ -1,38 +1,54 @@
+
 syntax on
 
-set expandtab
-set incsearch
+let g:polyglot_disabled = ['markdown']
+set incsearch "incrementeal searching (highlights as you search)"
 set laststatus=2
-set noerrorbells
-set noswapfile
-set nowrap
-set relativenumber
-set rnu
-set shiftwidth=4
+set noerrorbells "no ringy bois"
+set noswapfile 
+set nowrap  "doesnt wrap lines"
+set number relativenumber "numbers are displayed relative to what line you are on"
+set scrolloff=8 "scrolls when you get 8 lines from top or bottom"
+set nu rnu
+set nohlsearch
+set shiftwidth=2
 set smartcase
-set smartindent
 set splitright
-set tabstop=4 softtabstop=4
+set tabstop=2 softtabstop=2
+set expandtab
+set smartindent
+set guicursor=
 set undodir=~/.vim/undodir
 set undofile
 set wildmenu
 
+"Folding
+set foldmethod=indent
+
 "CoC settings
 set cmdheight=2
 set colorcolumn=80
+set signcolumn=yes  "shows linter errors in column to the left"
 set hidden
 set nobackup
 set nowritebackup
 set shortmess+=c
-set updatetime=50
+set updatetime=100
 highlight ColorColumn ctermbg=0 guibg=lightgrey
+highlight Normal guibg=none
 
 call plug#begin('~/.vim/plugged')
 
+Plug 'sheerun/vim-polyglot'
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'mattn/emmet-vim'
 Plug 'mbbill/undotree'
-Plug 'morhetz/gruvbox'
+Plug 'ayu-theme/ayu-vim'
+Plug 'gruvbox-community/gruvbox'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'pangloss/vim-javascript'
 Plug 'jremmen/vim-ripgrep'
@@ -40,19 +56,21 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'preservim/nerdtree'
-Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'theprimeagen/vim-be-good'
 Plug 'vim-utils/vim-man'
 Plug 'wakatime/vim-wakatime'
 
 call plug#end()
 
+colorscheme ayu
 colorscheme gruvbox
 set background=dark
 
 if executable('rg')
     let g:rg_derivce_root='true'
 endif
+
+
 
 "general styling
 let g:mkdp_browser = 'Google Chrome'
@@ -104,7 +122,6 @@ nnoremap <leader>z :call Term_toggle(10)<cr>
 tnoremap <leader>zt <C-\><C-n>:call Term_toggle(10)<cr>
 
 "general window movement/navigation
-"set macro for *cgn"changewords"<esc>. x amount of times to change
 nnoremap <leader>h :wincmd h<CR>
 nnoremap <leader>j :wincmd j<CR>
 nnoremap <leader>k :wincmd k<CR>
@@ -150,3 +167,19 @@ nnoremap <leader>f :FZF~/Desktop/codebases<cr>
 nmap <C-s> <Plug>MarkdownPreview
 nmap <M-s> <Plug>MarkdownPreviewStop
 nmap <C-p> <Plug>MarkdownPreviewToggle
+
+
+"lighthouse
+lua require('telescope').setup({defaults = {file_sorter = require('telescope.sorters').get_fzy_sorter}})
+nnoremap <leader>ps :lua require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For > ")})<CR>
+" Find files using Telescope command-line sugar.
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+" Using lua functions
+nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
