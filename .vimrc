@@ -39,6 +39,7 @@ highlight Normal guibg=none
 
 call plug#begin('~/.vim/plugged')
 
+"fix lua issues with treesitter and telescope
 Plug 'sheerun/vim-polyglot'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
