@@ -39,7 +39,9 @@ highlight Normal guibg=none
 
 call plug#begin('~/.vim/plugged')
 
-"fix lua issues with treesitter and telescope
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'yarn install',
+  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html' ] }
 Plug 'sheerun/vim-polyglot'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
@@ -137,6 +139,9 @@ nnoremap <silent><leader>4 :res -5<CR>
 nnoremap <silent><leader>1 :vertical resize +5<CR>
 nnoremap <silent><leader>2 :vertical resize -5<CR>
 
+"global variable replace
+nnoremap gR gD:%s///gc<left><left><left>
+
 "CoC
 "autocomplete
 function! s:check_back_space() abort
@@ -156,6 +161,12 @@ nmap <silent>gd <Plug>(coc-definition)
 nmap <silent>gy <Plug>(coc-type-definition)
 nmap <silent>gi <Plug>(coc-implementation)
 nmap <silent>gr <Plug>(coc-references)
+
+augroup ReactFiletypes
+  autocmd!
+  autocmd BufRead,BufNewFile *.jsx set filetype=javascriptreact
+  autocmd BufRead,BufNewFile *.tsx set filetype=typescriptreact
+augroup END
 
 "react refactor
 xmap <leader>a  <Plug>(coc-codeaction-selected)
