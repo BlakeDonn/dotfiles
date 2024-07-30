@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@angular/cli": "^18.1.0",
+    "pyright": "^1.1.371",
+    "typescript": "^5.5.3",
+    "typescript-language-server": "^4.3.3"
+  }
+}
